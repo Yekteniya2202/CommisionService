@@ -13,7 +13,6 @@ import java.io.IOException;
 
 @WebServlet("/getComission")
 public class ComissionEndPoint extends HttpServlet {
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("application/json; charset=utf-8");
@@ -22,12 +21,10 @@ public class ComissionEndPoint extends HttpServlet {
             var comission = comissionController.read(req.getParameter("card"));
             Response response = new ComissionResponse(comission, 200, "OK");
             resp.getWriter().write(response.serialize());
-
         }
         catch (Exception e){
             Response response = new ComissionResponse(null, 403, e.getMessage());
             resp.getWriter().write(response.serialize());
         }
     }
-
 }

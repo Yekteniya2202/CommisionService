@@ -3,11 +3,13 @@ package ru.babaev.Controllers;
 import ru.babaev.Models.Comission;
 import ru.babaev.Service.DBConnection;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -18,7 +20,7 @@ public class ComissionController {
     public ComissionController() throws SQLException, ClassNotFoundException {
     }
 
-    public Comission read(String card) throws SQLException {
+    public BigDecimal read(String card) throws SQLException {
 
         if (card == null || card.isEmpty()){
             throw new NoSuchElementException("Card is not presented");
@@ -29,24 +31,24 @@ public class ComissionController {
         }
         Statement stmt = connection.createStatement();
 
-        List<Comission> comissions = new ArrayList<Comission>();
+        BigDecimal comission = new BigDecimal(-1);
+        int commisionsCount = 0;
         String query = "SELECT comission FROM \"Comission\" WHERE card like \'" + card + "\'";
 
         ResultSet rs = stmt.executeQuery(query);
 
         while(rs.next()) {
-            Comission comission = new Comission();
-            comission.comission = rs.getBigDecimal("comission");
-            comissions.add(comission);
+            comission = rs.getBigDecimal("comission");
+            commisionsCount++;
         }
 
-        if(comissions.isEmpty()){
+        if(commisionsCount == 0){
             throw new NoSuchElementException("Query with card " + card + " did not return any accounts");
         }
-        if (comissions.size() > 1){
+        if (commisionsCount > 1){
             throw new NoSuchElementException("Iternal server error: query with card " + card + " returned two or more comissions");
         }
-        return comissions.get(0);
+        return comission;
     }
 
     public boolean update(){

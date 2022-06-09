@@ -3,7 +3,7 @@ package ru.babaev;
 public class ConfigApp {
     private static final String loginBD = "postgres"; //System.getenv("loginBD");
     private static final String passwordBD = "admin"; //System.getenv("passwordBD");
-    private static final String connectionStringBD = "jdbc:postgresql://localhost:5432/CMA_Accounts";//System.getenv("connectionStringBD");
+    private static final String connectionStringBD = "jdbc:postgresql://25.13.44.92:5432/CMA_Accounts";//System.getenv("connectionStringBD");
 
     public static String getConnectionStringBD() {
         if (connectionStringBD != null)
